@@ -33,7 +33,6 @@ class TestAccessManager(unittest.TestCase):
         """Parametrized cases read from testingCases_RF1.csv"""
         my_cases = JSON_FILES_PATH + "testingCases_RF2.csv"
         with open(my_cases, newline='', encoding='utf-8') as csv_file:
-            # pylint: disable=no-member
             param_test_cases = csv.DictReader(csv_file, delimiter=';')
             my_code = AccessManager()
             keys_store = KeysJsonStore()

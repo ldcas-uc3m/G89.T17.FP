@@ -11,7 +11,7 @@ class MyTestCase(unittest.TestCase):
 
     @classmethod
     def setUpClass(cls):
-        """initialization of test enviroment"""
+        """initialization of test environment"""
         requests_store = RequestJsonStore()
         requests_store.empty_store()
 

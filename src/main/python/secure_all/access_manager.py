@@ -29,6 +29,15 @@ class AccessManager:
             """Opens the door if the key is valid an it is not expired"""
             return AccessKey.create_key_from_id(key).is_valid()
 
+        @staticmethod
+        def revoke_key(file_path):
+            pass
+            # TODO
+
+        def store_access_log(self):
+            pass
+            # TODO
+
     __instance = None
 
     def __new__(cls):

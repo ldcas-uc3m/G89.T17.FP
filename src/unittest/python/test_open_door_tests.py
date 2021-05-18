@@ -10,7 +10,6 @@ class TestAccessManager(unittest.TestCase):
 
     @classmethod
     def setUpClass(cls) -> None:
-
         # remove the old storeKeys
         requests_store = RequestJsonStore()
         keys_store = KeysJsonStore()
@@ -35,7 +34,7 @@ class TestAccessManager(unittest.TestCase):
         # expected result 383a8eb306459919ef0dc819405f16a6
         # We generate the AccessKey for this AccessRequest
         my_key_expired = AccessKey.create_key_from_file(JSON_FILES_PATH +
-                                                          "key_ok_testing_expired.json")
+                                                        "key_ok_testing_expired.json")
         # We manipulate the expiration date to obtain an expired AccessKey
         my_key_expired.expiration_date = 0
         my_key_expired.store_keys()
