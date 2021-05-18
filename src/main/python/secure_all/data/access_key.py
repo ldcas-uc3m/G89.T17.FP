@@ -13,11 +13,8 @@ from secure_all.storage.keys_json_store import KeysJsonStore
 from secure_all.parser.key_json_parser import KeyJsonParser
 
 
-
-
-class AccessKey():
+class AccessKey:
     """Class representing the key for accessing the building"""
-    #pylint: disable=too-many-instance-attributes
 
     ALG_SHA256 = "SHA-256"
     TYPE_DS = "DS"
@@ -30,24 +27,24 @@ class AccessKey():
         access_request = AccessRequest.create_request_from_code(self.__access_code, self.__dni)
         self.__notification_emails = EmailList(notification_emails).value
         validity = access_request.validity
-        #justnow = datetime.utcnow()
-        #self.__issued_at = datetime.timestamp(justnow)
+        # just_now = datetime.utcnow()
+        # self.__issued_at = datetime.timestamp(just_now)
         # fix self.__issued_at only for testing 13-3-2021 18_49
-        self.__issued_at=1615627129.580297
+        self.__issued_at = 1615627129.580297
         if validity == 0:
             self.__expiration_date = 0
         else:
-            #timestamp is represneted in seconds.microseconds
-            #validity must be expressed in senconds to be added to the timestap
-            self.__expiration_date = self.__issued_at + (validity * 30 * 24 * 60 *60)
+            # timestamp is represented in seconds.microseconds
+            # validity must be expressed in seconds to be added to the timestamp
+            self.__expiration_date = self.__issued_at + (validity * 30 * 24 * 60 * 60)
         self.__key = hashlib.sha256(self.__signature_string().encode()).hexdigest()
-
 
     def __signature_string(self):
         """Composes the string to be used for generating the key"""
         return "{alg:"+self.__alg + ",typ:" + self.__type + ",accesscode:"\
                + self.__access_code+",issuedate:"+str(self.__issued_at)\
                + ",expirationdate:" + str(self.__expiration_date) + "}"
+
     @property
     def expiration_date(self):
         """expiration_date getter"""
@@ -62,6 +59,7 @@ class AccessKey():
     def dni(self):
         """Property that represents the dni of the visitor"""
         return self.dni
+
     @dni.setter
     def dni(self,value):
         """dni setter"""
@@ -102,15 +100,14 @@ class AccessKey():
         keys_store = KeysJsonStore()
         keys_store.add_item(self)
 
-    def is_valid( self ):
+    def is_valid(self):
         """Return true if the key is not expired"""
-        justnow = datetime.utcnow()
-        justnow_timestamp = datetime.timestamp(justnow)
+        just_now = datetime.utcnow()
+        just_now_timestamp = datetime.timestamp(just_now)
         if not (self.__expiration_date == 0 or
-                self.__expiration_date > justnow_timestamp):
+                self.__expiration_date > just_now_timestamp):
             raise AccessManagementException("key is not found or is expired")
         return True
-
 
     @classmethod
     def create_key_from_file( cls, key_file ):
