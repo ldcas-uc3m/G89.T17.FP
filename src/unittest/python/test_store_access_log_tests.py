@@ -16,6 +16,5 @@ class TestStoreAccessLog(unittest.TestCase):
 
     # TODO: test cases
 
-
 if __name__ == '__main__':
     unittest.main()
