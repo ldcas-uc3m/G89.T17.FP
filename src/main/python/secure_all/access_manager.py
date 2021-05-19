@@ -1,5 +1,5 @@
 """Module AccessManager with AccessManager Class """
-
+import secure_all
 from secure_all.data.access_key import AccessKey
 from secure_all.data.access_request import AccessRequest
 
@@ -30,8 +30,19 @@ class AccessManager:
             return AccessKey.create_key_from_id(key).is_valid()
 
         @staticmethod
-        def revoke_key(file_path):
-            pass
+        def validate_file_path(file_path):
+            if file_path is None:
+                raise secure_all.AccessManagementException("Incorrect JSON path")
+            if not isinstance(file_path, str):
+                raise secure_all.AccessManagementException("Incorrect JSON path")
+            if not file_path:
+                raise secure_all.AccessManagementException("Incorrect JSON path")
+
+            return
+
+        def revoke_key(self, file_path):
+           self.validate_file_path(file_path)
+           return
             # TODO
 
         def store_access_log(self):
