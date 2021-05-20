@@ -9,6 +9,7 @@ from secure_all import (JSON_FILES_PATH, AccessLog, AccessLogStore,
                         KeysJsonStore, RequestJsonStore)
 
 
+
 class TestStoreAccessLog(unittest.TestCase):
     """Test class for testing store_access_log"""
  
