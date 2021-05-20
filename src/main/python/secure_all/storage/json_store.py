@@ -36,6 +36,20 @@ class JsonStore:
         self._data_list.append(item.__dict__)
         self.save_store()
 
+    def remove_item(self, key):
+        """Removes a specific element from the list and saves the file,
+        given a key.
+        """
+        self.load_store()
+        i = 0
+        for item in self._data_list:
+            i += 1
+            if item[self._ID_FIELD] == key:
+                self._data_list.pop(i)
+                self.save_store()
+                return True
+        return None
+
     def find_item(self, key):
         """find the value key in the _KEY_FIELD"""
         self.load_store()
