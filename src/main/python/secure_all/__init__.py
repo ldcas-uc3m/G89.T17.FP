@@ -1,6 +1,7 @@
 """SECURE ALL MODULE WITH ALL THE FEATURES REQUIRED FOR ACCESS CONTROL"""
 from .data.access_request import AccessRequest
 from .data.access_key import AccessKey
+from .data.access_log import AccessLog
 from .access_manager import AccessManager
 from .exception.access_management_exception import AccessManagementException
 from .cfg.access_manager_config import JSON_FILES_PATH
