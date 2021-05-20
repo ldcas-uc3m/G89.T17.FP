@@ -3,7 +3,7 @@ import json
 from secure_all.exception.access_management_exception import AccessManagementException
 
 
-class JsonParser():
+class JsonParser:
     """Class for parsing input JSON Files for the secure_all system"""
 
     _key_list = []

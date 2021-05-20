@@ -7,6 +7,9 @@ from secure_all.data.access_key import AccessKey
 from secure_all.data.access_request import AccessRequest
 from secure_all.data.access_log import AccessLog
 from secure_all.storage.keys_json_store import KeysJsonStore
+from secure_all.parser.revoke_key_json_parser import RevokeKeyJsonParser
+from secure_all.exception.access_management_exception import AccessManagementException
+
 
 class AccessManager:
     """AccessManager class, manages the access to a building implementing singleton """
@@ -39,57 +42,20 @@ class AccessManager:
             return key_valid
 
         @staticmethod
-        def validate_file_path(file_path):
-            if file_path is None:
-                raise secure_all.AccessManagementException("Incorrect JSON path")
-            if not os.path.exists(file_path):
-                raise secure_all.AccessManagementException("Incorrect JSON path")
+        def revoke_key(file_path):
             if not isinstance(file_path, str):
-                raise secure_all.AccessManagementException("Incorrect JSON path")
-            if not file_path:
-                raise secure_all.AccessManagementException("Incorrect JSON path")
-            return
+                raise AccessManagementException("Incorrect JSON path")
 
-        @staticmethod
-        def revoke_key_get_emails(file_path):
-            if not os.path.exists(file_path):
-                raise secure_all.AccessManagementException(
-                    f"Input file given '{file_path}' does not exist"
-                )
-            with open(file_path, "r") as f:
-                contents = f.read()
-                try:
-                    input_data = json.loads(contents)
-                except json.decoder.JSONDecodeError as e:
-                    # Incorrect JSON Syntax
-                    raise secure_all.AccessManagementException(
-                        "Incorrect JSON Syntax"
-                    ) from e
-
-            if not {"AccessCode", "DNI", "NotificationMail"}.issubset(input_data.keys()):
-                # JSON given does not have the correct keys
-                raise secure_all.AccessManagementException(
-                    "Incorrect JSON Syntax"
-                )
-            # Test correct access code value
-            if not input_data["AccessCode"]:
-                # AccessCode value empty
-                raise secure_all.AccessManagementException(
-                    'Empty Access Code Value'
-                )
-
-            # remove key
+            parser = RevokeKeyJsonParser(file_path)
             key_store = KeysJsonStore()
-            key_store.remove_item(input_data["AccessCode"])
+            key = key_store.find_item(parser.json_content["Key"])
 
-            return input_data["NotificationMail"]
-
-        def revoke_key(self, file_path):
-            self.validate_file_path(file_path)
-            emails = self.revoke_key_get_emails(file_path)
+            if key is None:
+                raise AccessManagementException("JSON Decode Error - Wrong JSON Format")
+            emails = key["_AccessKey__notification_emails"]
+            key_store.remove_item(parser.json_content["Key"])
 
             return emails
-
 
     __instance = None
 

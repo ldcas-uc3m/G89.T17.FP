@@ -43,11 +43,11 @@ class JsonStore:
         self.load_store()
         i = 0
         for item in self._data_list:
-            i += 1
             if item[self._ID_FIELD] == key:
                 self._data_list.pop(i)
                 self.save_store()
                 return True
+            i += 1
         return None
 
     def find_item(self, key):

@@ -5,6 +5,7 @@ import os
 
 from secure_all import AccessManager, AccessManagementException, \
     JSON_FILES_PATH, KeysJsonStore, RequestJsonStore
+from secure_all.parser.revoke_key_json_parser import RevokeKeyJsonParser
 
 
 class TestRevokeKey(unittest.TestCase):
@@ -23,7 +24,7 @@ class TestRevokeKey(unittest.TestCase):
         my_manager.request_access_code("53935158C", "Marta Lopez",
                                        "Resident", "uc3m@gmail.com", 0)
         # access_code: a18a1128ba61da4216c086b710f10237
-       #my_manager.get_access_key(JSON_FILES_PATH + "valid_key_1.json")
+        my_manager.get_access_key(JSON_FILES_PATH + "valid_key_1.json")
         # key: f4368d997bf77980f12ee673d998c19c2c65397d7e2e7aee87759709776cd66c
 
     def test_syntax_analysis_tests(self):
@@ -34,28 +35,27 @@ class TestRevokeKey(unittest.TestCase):
             if not json_file.startswith("ok_") and json_file.endswith(".json"):
                 # json is invalid
                 with self.assertRaises(AccessManagementException) as c_m:
-                    am.revoke_key(test_cases + json_file)
-                self.assertEqual(c_m.exception.message, "Incorrect JSON Syntax")
-            if json_file.startswith("ok_") and json_file.endswith(".json"):
-                with open(test_cases + json_file, "r") as f:
-                    contents = f.read()
-                    input_data = json.loads(contents)
+                    RevokeKeyJsonParser(test_cases + json_file)
+                    self.assertEqual("JSON Decode Error - Wrong JSON Format", c_m.exception.message)
+            elif json_file.endswith(".json"):
+
                 with self.assertRaises(AccessManagementException) as c_m:
-                    self.assertEqual(am.revoke_key(test_cases + json_file), input_data["NotificationMail"])
+                    parser = RevokeKeyJsonParser(test_cases + json_file)
+                    self.assertNotEqual(None, parser)
 
     # i/o tests
 
     def test_revoke_key_all_ok_tests(self):
         test_cases = JSON_FILES_PATH
         am = AccessManager()
-        self.assertEqual(am.revoke_key(JSON_FILES_PATH + "valid_key_1.json"),
+        self.assertEqual(am.revoke_key(JSON_FILES_PATH + "revoke_key_all_ok.json"),
                          ['mail1@uc3m.es', 'mail2@uc3m.es'])
 
     def test_revoke_key_wrong_path_tests(self):
         am = AccessManager()
         with self.assertRaises(AccessManagementException) as c_m:
             am.revoke_key(JSON_FILES_PATH + "revoke_key_wrong_path.json")
-        self.assertEqual(c_m.exception.message, "Incorrect JSON path")
+        self.assertEqual(c_m.exception.message, "Wrong file or file path")
         pass
 
     def test_revoke_key_boolean_path_tests(self):
@@ -74,7 +74,7 @@ class TestRevokeKey(unittest.TestCase):
         am = AccessManager()
         with self.assertRaises(AccessManagementException) as c_m:
             am.revoke_key("")
-        self.assertEqual(c_m.exception.message, "Incorrect JSON path")
+        self.assertEqual(c_m.exception.message, "Wrong file or file path")
 
     def test_revoke_key_integer_path_tests(self):
         am = AccessManager()
@@ -82,13 +82,6 @@ class TestRevokeKey(unittest.TestCase):
             am.revoke_key(420)
         self.assertEqual(c_m.exception.message, "Incorrect JSON path")
 
-    '''''
-    def test_revoke_key_save_request_duplicate_tests(self):
-        am = AccessManager()
-        with self.assertRaises(AccessManagementException) as c_m:
-            am.revoke_key(JSON_FILES_PATH + "valid_key_1.json")
-        self.assertEqual(c_m.exception.message, "Key already revoked")
-    '''''
 
 if __name__ == '__main__':
     unittest.main()

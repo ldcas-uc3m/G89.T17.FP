@@ -33,9 +33,9 @@ class KeysJsonStore:
 
         def remove_item(self, key):
             """Access code validation"""
-            from secure_all.data.attributes.attribute_access_code import AccessCode
+            from secure_all.data.attributes.attribute_key import Key
 
-            AccessCode(key)  # validate key
+            Key(key)  # validate key
 
             return super().remove_item(key)
 
@@ -49,5 +49,5 @@ class KeysJsonStore:
     def __getattr__(self, name):
         return getattr(self.__instance, name)
 
-    def __setattr__ (self, name, value):
+    def __setattr__(self, name, value):
         return setattr(self.__instance, name, value)
