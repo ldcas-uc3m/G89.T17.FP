@@ -43,9 +43,6 @@ class TestRevokeKey(unittest.TestCase):
                 with self.assertRaises(AccessManagementException) as c_m:
                     self.assertEqual(am.revoke_key(test_cases + json_file), input_data["NotificationMail"])
 
-
-    # i/o tests
-
     # i/o tests
 
     def test_revoke_key_all_ok_tests(self):

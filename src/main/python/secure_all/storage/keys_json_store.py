@@ -31,6 +31,14 @@ class KeysJsonStore:
 
             return super().add_item(item)
 
+        def remove_item(self, key):
+            """Access code validation"""
+            from secure_all.data.attributes.attribute_access_code import AccessCode
+
+            AccessCode(key)  # validate key
+
+            return super().remove_item(key)
+
     __instance = None
 
     def __new__(cls):
