@@ -5,9 +5,6 @@ import os
 import secure_all
 from secure_all.data.access_key import AccessKey
 from secure_all.data.access_request import AccessRequest
-from secure_all.data.attributes.attribute_access_code import AccessCode
-from secure_all.data.attributes.attribute_dni import Dni
-from secure_all.data.attributes.attribute_email_list import EmailList
 
 class AccessManager:
     """AccessManager class, manages the access to a building implementing singleton """
@@ -76,14 +73,14 @@ class AccessManager:
                     'Empty Access Code Value'
                 )
 
-
             return input_data["NotificationMail"]
 
         def revoke_key(self, file_path):
            self.validate_file_path(file_path)
            emails = self.revoke_key_get_emails(file_path)
+
            return emails
-            # TODO pass duplicate key test
+            # TODO
 
         def store_access_log(self):
             pass
