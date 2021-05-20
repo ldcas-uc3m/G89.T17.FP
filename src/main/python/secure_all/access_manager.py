@@ -5,9 +5,8 @@ import os
 import secure_all
 from secure_all.data.access_key import AccessKey
 from secure_all.data.access_request import AccessRequest
-
+from secure_all.data.access_log import AccessLog
 from secure_all.storage.keys_json_store import KeysJsonStore
-
 
 class AccessManager:
     """AccessManager class, manages the access to a building implementing singleton """
@@ -32,7 +31,12 @@ class AccessManager:
         @staticmethod
         def open_door(key):
             """Opens the door if the key is valid an it is not expired"""
-            return AccessKey.create_key_from_id(key).is_valid()
+            access_key = AccessKey.create_key_from_id(key)
+            key_valid = access_key.is_valid()
+            if key_valid:
+                log = AccessLog(access_key)
+                log.store_access_log()
+            return key_valid
 
         @staticmethod
         def validate_file_path(file_path):
@@ -86,9 +90,6 @@ class AccessManager:
 
             return emails
 
-        def store_access_log(self):
-            pass
-            # TODO
 
     __instance = None
 
