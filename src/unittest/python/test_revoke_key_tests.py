@@ -35,16 +35,14 @@ class TestRevokeKey(unittest.TestCase):
             if not json_file.startswith("ok_") and json_file.endswith(".json"):
                 # json is invalid
                 with self.assertRaises(AccessManagementException) as c_m:
-                    RevokeKeyJsonParser(test_cases + json_file)
+                    am.revoke_key(test_cases + json_file)
                     self.assertEqual("JSON Decode Error - Wrong JSON Format", c_m.exception.message)
             elif json_file.endswith(".json"):
-
                 with self.assertRaises(AccessManagementException) as c_m:
-                    parser = RevokeKeyJsonParser(test_cases + json_file)
-                    self.assertNotEqual(None, parser)
+                    email = am.revoke_key(test_cases + json_file)
+                    self.assertNotEqual(email,["mail1@uc3m.es", "mail2@uc3m.es"])
 
     # i/o tests
-
     def test_revoke_key_all_ok_tests(self):
         test_cases = JSON_FILES_PATH
         am = AccessManager()

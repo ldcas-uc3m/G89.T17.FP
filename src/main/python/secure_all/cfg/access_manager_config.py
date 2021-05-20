@@ -1,4 +1,7 @@
 """Global constants for finding the path"""
-from pathlib import Path
+import os
 
-JSON_FILES_PATH = str(Path.home()) + "/PycharmProjects/G89.T17.FP/src/JsonFiles/"
+# Dynamically build path to json files folder:
+JSON_FILES_PATH = os.path.abspath(
+    os.path.join(os.path.dirname(__file__), "../../../..", "JsonFiles")
+) + os.sep

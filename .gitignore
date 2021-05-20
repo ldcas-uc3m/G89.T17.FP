@@ -3,3 +3,6 @@ venv
 .pybuilder
 target
 .vscode
+src/JsonFiles/storeRequest.json
+src/JsonFiles/storeKeys.json
+src/JsonFiles/storeAccessLogs.json
