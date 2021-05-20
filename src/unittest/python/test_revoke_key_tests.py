@@ -1,11 +1,10 @@
 """Test module for testing revoke_key"""
-import json
+
 import unittest
 import os
 
 from secure_all import AccessManager, AccessManagementException, \
     JSON_FILES_PATH, KeysJsonStore, RequestJsonStore
-from secure_all.parser.revoke_key_json_parser import RevokeKeyJsonParser
 
 
 class TestRevokeKey(unittest.TestCase):
@@ -40,41 +39,44 @@ class TestRevokeKey(unittest.TestCase):
             elif json_file.endswith(".json"):
                 with self.assertRaises(AccessManagementException) as c_m:
                     email = am.revoke_key(test_cases + json_file)
-                    self.assertNotEqual(email,["mail1@uc3m.es", "mail2@uc3m.es"])
+                    self.assertNotEqual(email, ["mail1@uc3m.es", "mail2@uc3m.es"])
 
-    # i/o tests
     def test_revoke_key_all_ok_tests(self):
-        test_cases = JSON_FILES_PATH
+        """i/o test"""
         am = AccessManager()
         self.assertEqual(am.revoke_key(JSON_FILES_PATH + "revoke_key_all_ok.json"),
                          ['mail1@uc3m.es', 'mail2@uc3m.es'])
 
     def test_revoke_key_wrong_path_tests(self):
+        """i/o test"""
         am = AccessManager()
         with self.assertRaises(AccessManagementException) as c_m:
             am.revoke_key(JSON_FILES_PATH + "revoke_key_wrong_path.json")
         self.assertEqual(c_m.exception.message, "Wrong file or file path")
-        pass
 
     def test_revoke_key_boolean_path_tests(self):
+        """i/o test"""
         am = AccessManager()
         with self.assertRaises(AccessManagementException) as c_m:
             am.revoke_key(True)
         self.assertEqual(c_m.exception.message, "Incorrect JSON path")
 
     def test_revoke_key_null_path_tests(self):
+        """i/o test"""
         am = AccessManager()
         with self.assertRaises(AccessManagementException) as c_m:
             am.revoke_key(None)
         self.assertEqual(c_m.exception.message, "Incorrect JSON path")
 
     def test_revoke_key_empty_path_tests(self):
+        """i/o test"""
         am = AccessManager()
         with self.assertRaises(AccessManagementException) as c_m:
             am.revoke_key("")
         self.assertEqual(c_m.exception.message, "Wrong file or file path")
 
     def test_revoke_key_integer_path_tests(self):
+        """i/o test"""
         am = AccessManager()
         with self.assertRaises(AccessManagementException) as c_m:
             am.revoke_key(420)

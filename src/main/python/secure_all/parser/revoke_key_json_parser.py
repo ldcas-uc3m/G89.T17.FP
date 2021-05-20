@@ -1,8 +1,8 @@
 """parser for input key files according to FC3"""
+import re
+
 from secure_all.parser.json_parser import JsonParser
 from secure_all.exception.access_management_exception import AccessManagementException
-import re
-import json
 
 
 class RevokeKeyJsonParser(JsonParser):
@@ -20,7 +20,7 @@ class RevokeKeyJsonParser(JsonParser):
     def _validate_json(self):
         super()._validate_json()
         i = 0
-        for key, content in self.json_content.items():
+        for _, content in self.json_content.items():
             if not re.fullmatch(self._contents_list[i], content):
                 raise AccessManagementException(self._key_error_message)
             i += 1

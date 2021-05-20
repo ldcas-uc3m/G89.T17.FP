@@ -36,9 +36,9 @@ class MyTestCase(unittest.TestCase):
                     self.assertDictEqual(generated_request.__dict__, my_request.__dict__)
                 else:
                     with self.assertRaises(AccessManagementException) as c_m:
-                        valor = my_code.request_access_code(row["DNI"], row["NAME SURNAME"],
-                                                            row["ACCESS TYPE"], row["email"],
-                                                            int(row["VALIDITY"]))
+                        my_code.request_access_code(row["DNI"], row["NAME SURNAME"],
+                                                    row["ACCESS TYPE"], row["email"],
+                                                    int(row["VALIDITY"]))
                     self.assertEqual(c_m.exception.message, row['EXPECTED RESULT'])
 
     def test_invalid_days_character(self):

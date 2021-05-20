@@ -9,10 +9,9 @@ from secure_all import (JSON_FILES_PATH, AccessLog, AccessLogStore,
                         KeysJsonStore, RequestJsonStore)
 
 
-
 class TestStoreAccessLog(unittest.TestCase):
     """Test class for testing store_access_log"""
- 
+
     @classmethod
     def setUpClass(cls):
         """initialization of test environment"""
@@ -55,7 +54,6 @@ class TestStoreAccessLog(unittest.TestCase):
             # Ensure the original file permissions are restored:
             os.chmod(access_log_fp, original_status)
 
-
     def test_store_access_log_not_exists_create_error(self):
         """
         Checks that there's a JSON Decode Error when reading the
@@ -63,7 +61,7 @@ class TestStoreAccessLog(unittest.TestCase):
         """
         am = AccessManager()
         # Edit storeAccessLogs so it does not have any JSON contents:
-        with open((AccessLogStore.get_file_path()),"w") as f:
+        with open((AccessLogStore.get_file_path()), "w") as f:
             f.write(":D I'm not Json Encoded HAHA :D !!")
 
         with self.assertRaises(AccessManagementException) as c_m:
@@ -92,7 +90,7 @@ class TestStoreAccessLog(unittest.TestCase):
                     "Items in access log are supposed to be objects "
                     "that resolve to python dictionaries."
                 )
-            if not set(["key","timestamp"]).issubset(item.keys()):
+            if not {"key", "timestamp"}.issubset(item.keys()):
                 self.fail("Items in the access logs should contain a 'key' and a 'timestamp'")
         # Check that the key value is correct:
         self.assertEqual(access_log[0]["key"], self.key)
@@ -119,7 +117,7 @@ class TestStoreAccessLog(unittest.TestCase):
                     "Items in access log are supposed to be objects "
                     "that resolve to python dictionaries."
                 )
-            if not set(["key","timestamp"]).issubset(item.keys()):
+            if not {"key", "timestamp"}.issubset(item.keys()):
                 self.fail("Items in the access logs should contain a 'key' and a 'timestamp'")
         # Check that the key value is correct:
         self.assertEqual(access_log[0]["key"], self.key)

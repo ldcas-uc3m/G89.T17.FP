@@ -99,7 +99,7 @@ class AccessRequest:
         if request_stored is None:
             raise AccessManagementException(request_store.NOT_FOUND_IN_THE_STORE)
 
-        request_stored_object = cls(request_stored[request_store.DNI],  # FIXME
+        request_stored_object = cls(request_stored[request_store.DNI],
                                     request_stored[request_store.REQUEST__NAME],
                                     request_stored[request_store.REQUEST__VISITOR_TYPE],
                                     request_stored[request_store.REQUEST__EMAIL_ADDRESS],

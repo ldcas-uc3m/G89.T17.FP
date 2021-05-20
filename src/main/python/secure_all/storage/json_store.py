@@ -23,7 +23,7 @@ class JsonStore:
         try:
             with open(self._FILE_PATH, "r", encoding="utf-8", newline="") as file:
                 self._data_list = json.load(file)
-        except FileNotFoundError as ex:
+        except FileNotFoundError:
             self._data_list = []
         except json.JSONDecodeError as ex:
             raise AccessManagementException("JSON Decode Error - Wrong JSON Format") from ex

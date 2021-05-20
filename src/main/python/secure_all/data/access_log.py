@@ -1,3 +1,5 @@
+"""Module for AccessLog"""
+
 from datetime import datetime
 
 from secure_all import AccessKey
@@ -11,7 +13,7 @@ class AccessLog:
 
     WRITE_FILE_ERROR = f"Unable to write to file '{AccessLogStore.get_file_path()}'"
 
-    def __init__(self, access_key:AccessKey):
+    def __init__(self, access_key: AccessKey):
         self.key = access_key.key
         self.timestamp = datetime.utcnow().timestamp()
 

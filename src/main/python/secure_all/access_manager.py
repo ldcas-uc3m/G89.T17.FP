@@ -1,8 +1,5 @@
 """Module AccessManager with AccessManager Class """
-import json
-import os
 
-import secure_all
 from secure_all.data.access_key import AccessKey
 from secure_all.data.access_request import AccessRequest
 from secure_all.data.access_log import AccessLog
@@ -43,6 +40,7 @@ class AccessManager:
 
         @staticmethod
         def revoke_key(file_path):
+            """Revokes a key given a json file doc"""
             if not isinstance(file_path, str):
                 raise AccessManagementException("Incorrect JSON path")
 
