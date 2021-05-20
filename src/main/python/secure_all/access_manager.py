@@ -6,6 +6,9 @@ import secure_all
 from secure_all.data.access_key import AccessKey
 from secure_all.data.access_request import AccessRequest
 
+from secure_all.storage.keys_json_store import KeysJsonStore
+
+
 class AccessManager:
     """AccessManager class, manages the access to a building implementing singleton """
 
@@ -59,28 +62,29 @@ class AccessManager:
                         "Incorrect JSON Syntax"
                     ) from e
 
-            if not set(["AccessCode", "DNI", "NotificationMail"]).issubset(input_data .keys()):
+            if not {"AccessCode", "DNI", "NotificationMail"}.issubset(input_data.keys()):
                 # JSON given does not have the correct keys
                 raise secure_all.AccessManagementException(
                     "Incorrect JSON Syntax"
                 )
-                # ---------
-                # Test correct access code value
-                # ---------
+            # Test correct access code value
             if not input_data["AccessCode"]:
-                # AcessCode value empty
+                # AccessCode value empty
                 raise secure_all.AccessManagementException(
                     'Empty Access Code Value'
                 )
 
+            # remove key
+            key_store = KeysJsonStore()
+            key_store.remove_item(input_data["AccessCode"])
+
             return input_data["NotificationMail"]
 
         def revoke_key(self, file_path):
-           self.validate_file_path(file_path)
-           emails = self.revoke_key_get_emails(file_path)
+            self.validate_file_path(file_path)
+            emails = self.revoke_key_get_emails(file_path)
 
-           return emails
-            # TODO
+            return emails
 
         def store_access_log(self):
             pass
