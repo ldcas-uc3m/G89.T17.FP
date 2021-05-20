@@ -7,6 +7,7 @@ from secure_all import AccessManager, AccessManagementException, \
 import os
 import json
 
+
 class TestStoreAccessLog(unittest.TestCase):
     """Test class for testing store_access_log"""
 
@@ -28,7 +29,7 @@ class TestStoreAccessLog(unittest.TestCase):
         cls.key = my_manager.get_access_key(JSON_FILES_PATH + "valid_key_1.json")
         # key: f4368d997bf77980f12ee673d998c19c2c65397d7e2e7aee87759709776cd66c
 
-    # TODO: test cases
+
     def test_store_access_log_not_exists_create_error(self):
         # Skip test since can't force a create error:
         self.SkipTest()

@@ -3,7 +3,7 @@ import json
 from secure_all.exception.access_management_exception import AccessManagementException
 
 
-class JsonStore():
+class JsonStore:
     """Manages stores based on JsonFiles"""
     _FILE_PATH = ""
     _ID_FIELD = ""

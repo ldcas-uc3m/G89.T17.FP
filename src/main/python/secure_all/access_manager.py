@@ -19,7 +19,7 @@ class AccessManager:
 
         @staticmethod
         def get_access_key(keyfile):
-            """Returns the access key for the access code & dni received in a json file"""
+            """Returns the access key for the access code received in a json file"""
             my_key = AccessKey.create_key_from_file(keyfile)
             my_key.store_keys()
             return my_key.key

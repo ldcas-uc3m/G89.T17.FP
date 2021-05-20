@@ -7,6 +7,7 @@ from secure_all.data.attributes.attribute_dni import Dni
 from secure_all.data.attributes.attribute_access_type import AccessType
 from secure_all.data.attributes.attribute_email import Email
 from secure_all.storage.requests_json_store import RequestJsonStore
+from secure_all.data.attributes.attribute_access_code import AccessCode
 
 
 class AccessRequest:
@@ -20,10 +21,11 @@ class AccessRequest:
         self.__email_address = Email(email_address).value
         self.__validity = access_type_object.validate_days(validity)
         access_type_object = None
-        # justnow = datetime.utcnow()
-        # self.__time_stamp = datetime.timestamp(justnow)
+        # just_now = datetime.utcnow()
+        # self.__time_stamp = datetime.timestamp(just_now)
         # only for testing , fix de time stamp to this value 1614962381.90867, 5/3/2020 18_40
         self.__time_stamp = 1614962381.90867
+        self.__access_code = AccessCode(hashlib.md5(self.__str__().encode()).hexdigest()).value
 
     def __str__(self):
         """It returns the json corresponding to the AccessRequest"""
@@ -86,23 +88,21 @@ class AccessRequest:
     @property
     def access_code(self):
         """Property for obtaining the access code according the requirements"""
-        return hashlib.md5(self.__str__().encode()).hexdigest()
+        return self.__access_code
 
     @classmethod
-    def create_request_from_code(cls, access_code, dni):
+    def create_request_from_code(cls, access_code):
         """Load from the store an AccessRequest from the access_code
         and the dni"""
         request_store = RequestJsonStore()
-        request_stored = request_store.find_item(dni)
+        request_stored = request_store.find_item(access_code)
         if request_stored is None:
             raise AccessManagementException(request_store.NOT_FOUND_IN_THE_STORE)
 
-        request_stored_object = cls(request_stored[request_store.ID_FIELD],
+        request_stored_object = cls(request_stored[request_store.DNI],  # FIXME
                                     request_stored[request_store.REQUEST__NAME],
                                     request_stored[request_store.REQUEST__VISITOR_TYPE],
                                     request_stored[request_store.REQUEST__EMAIL_ADDRESS],
                                     request_stored[request_store.ACCESS_REQUEST__VALIDITY])
 
-        if not request_stored_object.access_code == access_code:
-            raise AccessManagementException(request_store.NOT_CORRECT_FOR_THIS_DNI)
         return request_stored_object

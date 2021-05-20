@@ -24,7 +24,7 @@ class AccessKey:
         self.__type = self.TYPE_DS
         self.__access_code = AccessCode(access_code).value
         self.__dni = Dni(dni).value
-        access_request = AccessRequest.create_request_from_code(self.__access_code, self.__dni)
+        access_request = AccessRequest.create_request_from_code(self.__access_code)
         self.__notification_emails = EmailList(notification_emails).value
         validity = access_request.validity
         # just_now = datetime.utcnow()
@@ -61,7 +61,7 @@ class AccessKey:
         return self.dni
 
     @dni.setter
-    def dni(self,value):
+    def dni(self, value):
         """dni setter"""
         self.__dni = value
 
@@ -81,7 +81,7 @@ class AccessKey:
         return self.__notification_emails
 
     @notification_emails.setter
-    def notification_emails( self, value ):
+    def notification_emails(self, value):
         """Setter for notification emails"""
         self.__notification_emails = value
 
@@ -110,7 +110,7 @@ class AccessKey:
         return True
 
     @classmethod
-    def create_key_from_file( cls, key_file ):
+    def create_key_from_file(cls, key_file):
         """Class method from creating an instance of AccessKey
         from the content of a file according to RF2"""
         access_key_items = KeyJsonParser(key_file).json_content
@@ -119,7 +119,7 @@ class AccessKey:
                    access_key_items[KeyJsonParser.MAIL_LIST])
 
     @classmethod
-    def create_key_from_id( cls, key ):
+    def create_key_from_id(cls, key):
         """Class method from creating an instance of AccessKey
         retrieving the information from the keys store"""
         keys_store = KeysJsonStore()

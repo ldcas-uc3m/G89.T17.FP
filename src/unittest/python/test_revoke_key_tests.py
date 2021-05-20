@@ -27,7 +27,7 @@ class TestRevokeKey(unittest.TestCase):
 
     def test_syntax_analysis_tests(self):
         """syntax analysis for json files"""
-        # TODO: add files
+
         test_cases = JSON_FILES_PATH + "tests_revoke_key/"
         am = AccessManager()
         for json_file in os.listdir(test_cases):
