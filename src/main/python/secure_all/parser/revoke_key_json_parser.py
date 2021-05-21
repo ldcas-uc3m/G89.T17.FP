@@ -7,7 +7,8 @@ from secure_all.exception.access_management_exception import AccessManagementExc
 
 class RevokeKeyJsonParser(JsonParser):
     """parser for input key files containing a AccessKey request"""
-    _key_error_message = "JSON Decode Error - Wrong JSON Format"
+    ERROR_MESSAGE = "JSON Decode Error - Wrong JSON Format"
+    _key_error_message = ERROR_MESSAGE
     KEY = "Key"
     REVOCATION = "Revocation"
     REASON = "Reason"

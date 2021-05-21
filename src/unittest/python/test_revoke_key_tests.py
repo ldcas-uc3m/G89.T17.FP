@@ -5,6 +5,7 @@ import os
 
 from secure_all import AccessManager, AccessManagementException, \
     JSON_FILES_PATH, KeysJsonStore, RequestJsonStore
+from secure_all.parser.revoke_key_json_parser import RevokeKeyJsonParser
 
 
 class TestRevokeKey(unittest.TestCase):
@@ -13,6 +14,14 @@ class TestRevokeKey(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
         """initialization of test environment"""
+        cls.initialize_keys()
+
+    @classmethod
+    def initialize_keys(cls):
+        """
+        Removes the old stored keys and creates a new one to use
+        for the test cases.
+        """
         # remove the old storeKeys
         requests_store = RequestJsonStore()
         keys_store = KeysJsonStore()
@@ -35,11 +44,13 @@ class TestRevokeKey(unittest.TestCase):
                 # json is invalid
                 with self.assertRaises(AccessManagementException) as c_m:
                     am.revoke_key(test_cases + json_file)
-                    self.assertEqual("JSON Decode Error - Wrong JSON Format", c_m.exception.message)
+                    self.assertEqual(RevokeKeyJsonParser.ERROR_MESSAGE, c_m.exception.message)
             elif json_file.endswith(".json"):
-                with self.assertRaises(AccessManagementException) as c_m:
-                    email = am.revoke_key(test_cases + json_file)
-                    self.assertNotEqual(email, ["mail1@uc3m.es", "mail2@uc3m.es"])
+                # Empty the old stored keys and create new ones to ensure the test runs correctly:
+                self.initialize_keys()
+                email = am.revoke_key(test_cases + json_file)
+                self.assertEqual(email, ["mail1@uc3m.es", "mail2@uc3m.es"])
+
 
     def test_revoke_key_all_ok_tests(self):
         """i/o test"""
