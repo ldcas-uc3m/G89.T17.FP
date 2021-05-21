@@ -1,0 +1,8 @@
+#,I/O,TECHNIQUE,FIELD,VALID/INVALID,ID TEST,CRITERIA,DESCRIPTION,VALUE,JSON,EXPECTED RESULT,OBSERVATIONS
+1,INPUT,EC,FilePath,VALID ,test_revoke_key_all_ok,ALL OK,Valid json file path ,./JsonFiles/revoke_key_all_ok.json,"{""Key"":""f4368d997bf77980f12ee673d998c19c2c65397d7e2e7aee87759709776cd66c"",""Revocation"":""Final"",""Reason"":""Testing.""}","""[""mail1@uc3m.es"",""mail2@uc3m.es""]""",
+2,INPUT,EC ,FilePath,INVALID ,test_revoke_key_wrong_path ,STRING VALUE,wrong jsonfile ,./JsonFiles/revoke_key_wrong_path.json,,AccessManagerException: Incorrect JSON path ,
+3,INPUT,EC,FilePath,INVALID ,test_revoke_key_boolean_path ,BOOLEAN VALUE ,BOOLEAN PATH ,TRUE ,,AccessManagerException: Incorrect JSON path ,
+4,INPUT,EC,FilePath,INVALID ,test_revoke_key_null_path,NULL TYPE,NULL PATH ,NULL,,AccessManagerException: Incorrect JSON path ,
+5,INPUT,EC,FilePath,INVALID ,test_revoke_key_empty_path,STRING VALUE,EMPTY PATH ,,,AccessManagerException: Incorrect JSON path ,
+6,INPUT,EC,FilePath,INVALID ,test_revoke_key_integer_path,INTEGER VALUE ,INTEGER PATH,420,,AccessManagerException: Incorrect JSON path ,
+7,INPUT,EC,FilePath,INVALID ,test_revoke_key_save_request_duplicate ,REVOKE REQUEST,DUPLICATE REVOKE,./JsonFiles/revoke_key_all_ok.json,"{""Key"":""f4368d997bf77980f12ee673d998c19c2c65397d7e2e7aee87759709776cd66c"",""Revocation"":""Final"",""Reason"":""Testing.""}",AccessManagerException: Key already revoked ,it uses the json used for the all ok test 
