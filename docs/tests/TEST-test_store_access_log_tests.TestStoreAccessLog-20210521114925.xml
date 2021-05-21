@@ -1,7 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="test_store_access_log_tests.TestStoreAccessLog-20210521114925" tests="4" file="test_store_access_log_tests.py" time="0.029" timestamp="2021-05-21T11:49:26" failures="0" errors="0" skipped="0">
-	<testcase classname="test_store_access_log_tests.TestStoreAccessLog" name="test_store_access_log_exists_ok" time="0.009" timestamp="2021-05-21T11:49:25"/>
-	<testcase classname="test_store_access_log_tests.TestStoreAccessLog" name="test_store_access_log_not_exists_create_error" time="0.003" timestamp="2021-05-21T11:49:25"/>
-	<testcase classname="test_store_access_log_tests.TestStoreAccessLog" name="test_store_access_log_not_exists_ok" time="0.018" timestamp="2021-05-21T11:49:26"/>
-	<testcase classname="test_store_access_log_tests.TestStoreAccessLog" name="test_store_access_log_not_exists_write_error" time="0.000" timestamp="2021-05-21T11:49:26"/>
-</testsuite>
